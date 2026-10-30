@@ -1,2 +1,57 @@
+![task-manager banner](banner.png)
+
 # task-manager
-minimal task manager in python
+
+A minimal interactive task manager in Python, in a single file, using only
+the standard library. Tasks live in an in-memory list for the duration of
+the session; nothing is saved to disk, so the list resets when you quit.
+
+## Run
+
+```bash
+python3 task-manager.py
+```
+
+The program starts with two built-in example tasks (`walk dog`, due in
+2 days and marked completed, and `Eat tree`, due in 30 days and not
+completed) and then shows a menu:
+
+```text
+1. ADD       add a task, with a description and whole days until it is due
+2. COMPLETE  mark a task completed by its exact, case-sensitive name
+3. PRINT     list all tasks with their status and days remaining
+4. REMOVE    remove every completed task from the list
+5. RANDOM    print one task chosen at random
+6. NEXT      print the task with the fewest days remaining
+7. QUIT      exit
+```
+
+## Behaviour verified by testing
+
+- The menu accepts only a whole number from 1 to 7. Anything else (text,
+  an empty line, `3.5`, 0, 99, -1) prints
+  `Please enter a number from 1 to 7.` and shows the menu again, with no
+  traceback.
+- Closing the input (EOF, for example Ctrl-D) at the menu or at any
+  sub-prompt prints `Bye! Bye!` and exits with status 0.
+- ADD rejects a non-numeric days value with an explanation and does not
+  add the task. After a successful add, the new task is printed in the
+  same readable format PRINT uses.
+- REMOVE really removes: completed tasks are gone from a following PRINT,
+  and only uncompleted tasks remain. The list is printed before and after
+  the removal.
+- NEXT compares days as numbers, so a task due in 2 days is chosen ahead
+  of one due in 100 days.
+- RANDOM prints just the chosen task (no stray `None` line).
+- NEXT and RANDOM on an empty list (reachable after completing and
+  removing every task) print a short no-tasks message instead of crashing.
+- Days and completion status are stored as integers throughout. The
+  `task` class methods behave accordingly: `task_due()` reports a task
+  with 0 or fewer days as due, and `day_passed()` reduces the days
+  remaining by one.
+
+## Files
+
+- `task-manager.py` - the whole program, including the `task` class and
+  the menu loop
+- `LICENSE` - GNU General Public License v3
