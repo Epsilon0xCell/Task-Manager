@@ -1,6 +1,6 @@
 ![task-manager banner](banner.png)
 
-# task-manager
+# Task-Manager
 
 A minimal interactive task manager in Python, in a single file, using only
 the standard library. Tasks live in an in-memory list for the duration of
