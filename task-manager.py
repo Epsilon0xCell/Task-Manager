@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Jan 15 14:04:29 2024
+"""A small interactive task manager I keep in one file.
 
-@author: cy83r-3x71nc710n
+Tasks live in a list in memory for the length of the session and
+are gone when the program quits. Nothing is written to disk, so
+there is no save file to load, corrupt, or lose.
 """
 
 import random
-import sys
-import os
 
 # I keep a task to three fields and nothing else. The __slots__ line
 # pins those names, so a mistyped assignment raises an error instead
@@ -44,7 +43,7 @@ class task:
   # stopping at zero.
   def day_passed(self):
     self.Days = self.Days - 1
-    return "After updation the day passed is now" + str(self.Days)
+    return "After updation the day passed is now " + str(self.Days)
 
 
 # The data structure I choose for writing my tasks is: a list, because sometimes when completing a list of tasks, you have duplicate tasks and you need to update the tasks. I also like that lists have specific indexes that correlate to the item number
@@ -56,22 +55,6 @@ tasks = [task("walk dog", "1", "2"), task("Eat tree", "0", "30")]
 # because the menu builds its tasks with ints instead.
 
 #print(tasks[1])
-
-
-# The name of this function is wider than its check. I count tasks
-# that are not completed yet, and I never look at Days here, so a
-# task due in 30 days counts the same as one that is already
-# overdue. The menu never calls this function. PRINT is how the
-# list gets read in a normal run.
-def countDueTasks(tasks):
-  i = 0
-  for task in tasks:
-    if task.Completed_Uncompleted == 0:
-      i = i + 1
-  print("You have " + str(i) + " tasks to complete")
-
-
-#print(countDueTasks(tasks))
 
 
 # The empty check at the top of this function, and the matching
@@ -135,76 +118,99 @@ def removeCompleted(tasks):
 
 #removeCompleted(tasks)
 
-# The EOF catch around this loop covers the whole menu body, not
-# just the menu prompt. Closing the input at an ADD or COMPLETE
-# sub-prompt therefore quits the whole program with the same Bye
-# message instead of cancelling that one action. I accept that
-# here because there is no saved state to protect. The list lives
-# in memory only and is gone either way.
-while True:
-  print("\n Welcome to the task mangement program. \n")
-  print("1. ADD" + "\n" + "2. COMPLETE" + "\n" + "3. PRINT" + "\n" + "4. REMOVE" + "\n" + "5. RANDOM" + "\n" + "6. NEXT" + "\n" "7. QUIT")
-  try:
-    answer = input("\n What would you like to execute? \n")
-    # I parse the number on its own, before any branch runs. Text,
-    # an empty line, and 3.5 all land in the except below and go
-    # back to the menu, instead of crashing the loop or falling
-    # through into a branch they do not belong to.
+# The catch around this loop covers the whole menu body, not just
+# the menu prompt. Closing the input (EOF, Ctrl-D) or pressing
+# Ctrl-C at an ADD or COMPLETE sub-prompt therefore quits the
+# whole program with the same Bye message instead of cancelling
+# that one action or dying with a traceback. I accept that here
+# because there is no saved state to protect. The list lives in
+# memory only and is gone either way.
+def main():
+  while True:
+    print("\n Welcome to the task management program. \n")
+    print("1. ADD" + "\n" + "2. COMPLETE" + "\n" + "3. PRINT" + "\n" + "4. REMOVE" + "\n" + "5. RANDOM" + "\n" + "6. NEXT" + "\n" "7. QUIT")
     try:
-      choice = int(answer)
-    except ValueError:
-      print("\n Please enter a number from 1 to 7. \n")
-      continue
-    if choice == 1:
-      description = input("\n Please specify the description \n")
-      time = input("\n please specify the time until completition \n")
-      # I refuse a text day count here instead of storing it. A
-      # string day count is what broke NEXT in an earlier version,
-      # because as text "100" sorts ahead of "2".
+      answer = input("\n What would you like to execute? \n")
+      # I parse the number on its own, before any branch runs. Text,
+      # an empty line, and 3.5 all land in the except below and go
+      # back to the menu, instead of crashing the loop or falling
+      # through into a branch they do not belong to.
       try:
-        days = int(time)
+        choice = int(answer)
       except ValueError:
-        print("\n The time until completion must be a whole number of days. Task not added. \n")
-        continue
-      # A new task always starts uncompleted. Done is a state a
-      # task reaches through COMPLETE, not a state it can start in.
-      tasks.append(task(description, 0, days))
-      print(tasks[-1])
-    elif choice == 2:
-        # The match is exact and the loop below never breaks, so
-        # two tasks with the same name both get marked completed.
-        # Nothing prints when the name matches nothing, so a typo
-        # looks exactly like success until the next PRINT.
-        name = input("\n What is the name of your task (case sensitive) \n")
-        for i in tasks:
-            if i.Task == name:
-                i.Completed_Uncompleted = 1
-    elif choice == 3:
-        print("\n Loading Task Information: \n")
-        i = 0
-        for x in tasks:
-            i = i+1
-            print("\n Task Number: \n" + str(i))
-            print(x)
-    elif choice == 4:
-         print("Removing task...")
-         removeCompleted(tasks)
-    elif choice == 5:
-       print("Pulling random task...")
-       randomTask(tasks)
-    elif choice == 6:
-       print("Locating the first task you should complete.")
-       firstTask(tasks)
-    elif choice == 7:
-        print("\n Bye! Bye! \n")
-        sys.exit()
-    else:
         print("\n Please enter a number from 1 to 7. \n")
-  except EOFError:
-    print("\n Bye! Bye! \n")
-    sys.exit()
-      
-# Possibly attempt enrichment challenge if we have time later...
+        continue
+      if choice == 1:
+        description = input("\n Please specify the description \n")
+        time = input("\n please specify the time until completion \n")
+        # I refuse a text day count here instead of storing it. A
+        # string day count is what broke NEXT in an earlier version,
+        # because as text "100" sorts ahead of "2".
+        try:
+          days = int(time)
+        except ValueError:
+          print("\n The time until completion must be a whole number of days. Task not added. \n")
+          continue
+        # A task with no name could never be picked out by COMPLETE,
+        # which matches on the exact name, so I refuse a blank one
+        # instead of storing a task nothing can reach.
+        if not description.strip():
+          print("\n The description cannot be blank. Task not added. \n")
+          continue
+        # A negative count names a due date in the past. Overdue is
+        # a state a task reaches as days pass, not a state it starts
+        # in, so I refuse it at entry and say why.
+        if days < 0:
+          print("\n The time until completion cannot be negative. Task not added. \n")
+          continue
+        # A new task always starts uncompleted. Done is a state a
+        # task reaches through COMPLETE, not a state it can start in.
+        tasks.append(task(description, 0, days))
+        print(tasks[-1])
+      elif choice == 2:
+          # The match is exact and the loop below never breaks, so
+          # two tasks with the same name both get marked completed.
+          # The count drives the message after the loop: a name that
+          # matched nothing now says so, where it used to print
+          # nothing and a typo looked exactly like success.
+          name = input("\n What is the name of your task (case sensitive) \n")
+          matched = 0
+          for i in tasks:
+              if i.Task == name:
+                  i.Completed_Uncompleted = 1
+                  matched += 1
+          if matched:
+              print("\n Marked completed: " + name + " \n")
+          else:
+              print("\n No task named '" + name + "' found. Names are case sensitive; run PRINT to see the exact names. \n")
+      elif choice == 3:
+          print("\n Loading Task Information: \n")
+          i = 0
+          for x in tasks:
+              i = i+1
+              print("\n Task Number: \n" + str(i))
+              print(x)
+      elif choice == 4:
+           print("Removing task...")
+           removeCompleted(tasks)
+      elif choice == 5:
+         print("Pulling random task...")
+         randomTask(tasks)
+      elif choice == 6:
+         print("Locating the first task you should complete.")
+         firstTask(tasks)
+      elif choice == 7:
+          print("\n Bye! Bye! \n")
+          return
+      else:
+          print("\n Please enter a number from 1 to 7. \n")
+    except (EOFError, KeyboardInterrupt):
+      print("\n Bye! Bye! \n")
+      return
+
+
+if __name__ == "__main__":
+  main()
     
 
 

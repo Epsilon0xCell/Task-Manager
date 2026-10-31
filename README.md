@@ -32,11 +32,17 @@ completed) and then shows a menu:
   an empty line, `3.5`, 0, 99, -1) prints
   `Please enter a number from 1 to 7.` and shows the menu again, with no
   traceback.
-- Closing the input (EOF, for example Ctrl-D) at the menu or at any
-  sub-prompt prints `Bye! Bye!` and exits with status 0.
-- ADD rejects a non-numeric days value with an explanation and does not
-  add the task. After a successful add, the new task is printed in the
-  same readable format PRINT uses.
+- Closing the input (EOF, for example Ctrl-D) or pressing Ctrl-C at
+  the menu or at any sub-prompt prints `Bye! Bye!` and exits with
+  status 0, with no traceback.
+- ADD rejects a non-numeric days value, a negative days value, and a
+  blank description, each with an explanation, and does not add the
+  task. After a successful add, the new task is printed in the same
+  readable format PRINT uses.
+- COMPLETE reports what it did: `Marked completed: <name>` when the
+  name matched (every task with that exact name is marked), and a
+  `No task named ... found` message when it matched nothing, so a
+  typo no longer looks like success.
 - REMOVE really removes: completed tasks are gone from a following PRINT,
   and only uncompleted tasks remain. The list is printed before and after
   the removal.
@@ -50,8 +56,20 @@ completed) and then shows a menu:
   with 0 or fewer days as due, and `day_passed()` reduces the days
   remaining by one.
 
+## Tests
+
+```bash
+python3 -m unittest
+```
+
+19 tests: the `task` class on its own (string fields stored as ints,
+due checks, `day_passed`, removal mutating the caller's list) and
+scripted menu runs (add, complete, remove, next, quit, bad input,
+EOF, and a simulated Ctrl-C).
+
 ## Files
 
 - `task-manager.py` - the whole program, including the `task` class and
   the menu loop
+- `test_task_manager.py` - the test suite
 - `LICENSE` - GNU General Public License v3
