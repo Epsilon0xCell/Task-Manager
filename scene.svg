@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 260" role="img" aria-label="Side view of the flight: lamp wedge breathing at the landing, a polish shine travelling up the rods, dust crossing the window light">
+<rect width="1200" height="260" fill="#5e7050"/>
+<rect x="0" y="150" width="1200" height="110" fill="#4a4034"/>
+<polygon points="900,0 1200,0 1200,90 980,60" fill="#ffd26e"><animate attributeName="opacity" values=".35;.65;.35" dur="11s" repeatCount="indefinite"/></polygon>
+<g stroke="#e8e4d8" stroke-width="7"><line x1="60" y1="238" x2="1140" y2="58"/></g>
+<g fill="#a02a26"><polygon points="120,238 300,238 300,214 480,214 480,190 660,190 660,166 840,166 840,142 1020,142 1020,118 1140,118 1140,238"/></g>
+<g stroke="#ce9c42" stroke-width="6" stroke-linecap="round">
+<line x1="140" y1="228" x2="280" y2="228"><animate attributeName="opacity" values="1;.35;1" dur="12s" begin="0s" repeatCount="indefinite"/></line>
+<line x1="320" y1="204" x2="460" y2="200" transform="rotate(-3 390 202)"><animate attributeName="opacity" values=".35;1;.35" dur="12s" begin="1.6s" repeatCount="indefinite"/></line>
+<line x1="500" y1="180" x2="640" y2="180"><animate attributeName="opacity" values=".35;1;.35" dur="12s" begin="3.2s" repeatCount="indefinite"/></line>
+<line x1="680" y1="156" x2="820" y2="156"><animate attributeName="opacity" values=".35;1;.35" dur="12s" begin="4.8s" repeatCount="indefinite"/></line>
+<line x1="860" y1="132" x2="1000" y2="132"><animate attributeName="opacity" values=".35;1;.35" dur="12s" begin="6.4s" repeatCount="indefinite"/></line>
+</g>
+<g><polygon points="700,150 726,150 720,168 706,168" fill="#e4e0ce"><animateTransform attributeName="transform" type="rotate" values="0 713 150;4 713 150;0 713 150" dur="12s" begin="4.8s" repeatCount="indefinite"/></polygon></g>
+<rect x="30" y="120" width="16" height="140" fill="#543c24"/>
+<g fill="#fff2c8"><circle cx="200" cy="60" r="2"><animate attributeName="cx" values="120;420" dur="19s" repeatCount="indefinite"/></circle><circle cx="300" cy="96" r="2"><animate attributeName="cx" values="220;520" dur="23s" repeatCount="indefinite"/></circle></g>
+</svg>

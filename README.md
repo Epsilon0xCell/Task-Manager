@@ -1,4 +1,11 @@
-![task-manager banner](banner.png)
+![Intro scenery](intro-banner.png)
+
+
+# Task-Manager
+
+![Wordmark banner](banner.png)
+
+![Animated scene](scene.svg)
 
 # Task-Manager
 
@@ -25,6 +32,8 @@ completed) and then shows a menu:
 6. NEXT      print the task with the fewest days remaining
 7. QUIT      exit
 ```
+
+![Separator](sep-heavy.svg)
 
 ## Behaviour verified by testing
 
@@ -56,6 +65,8 @@ completed) and then shows a menu:
   with 0 or fewer days as due, and `day_passed()` reduces the days
   remaining by one.
 
+![Separator](sep-light.svg)
+
 ## Tests
 
 ```bash
@@ -67,9 +78,15 @@ due checks, `day_passed`, removal mutating the caller's list) and
 scripted menu runs (add, complete, remove, next, quit, bad input,
 EOF, and a simulated Ctrl-C).
 
+![Separator](sep-heavy.svg)
+
 ## Files
 
 - `task-manager.py` - the whole program, including the `task` class and
   the menu loop
 - `test_task_manager.py` - the test suite
 - `LICENSE` - GNU General Public License v3
+
+![Separator](sep-heavy.svg)
+
+> **Landing list:** Every session opens with walk dog, due in 2 days and already completed, and Eat tree, due in 30 days and not completed. Quitting erases the list, because nothing is saved to disk.

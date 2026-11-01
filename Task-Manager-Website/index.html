@@ -3,162 +3,66 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Task Manager: what it is, how it runs, where it stops</title>
-<meta name="description" content="Task Manager is one of my projects. The README in the repo is short, so this page sticks to what the files themselves show.">
+<title>Task-Manager: The Stair Runner Brass Rods</title>
+<meta name="description" content="A single file interactive Python task manager, standard library only, tasks kept in memory for the session only.">
 <style>
-:root {
-  --bg: #181c3a; --panel: #22284e; --ink: #eeeef6;
-  --mut: #2d3669;
-  --acc: #7eb8f7; --acc2: #f7ba7e;
-  --line: #22284e;
-}
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink);
-  font-family: Charter, Georgia, serif; line-height: 1.55; }
-code, pre, .mono { font-family: 'DejaVu Sans Mono', monospace; }
-a { color: var(--acc2); }
-.hero { padding: 3rem 6vw 1rem; }
-.hero img.banner { width: 100%; height: auto; border: 1px solid var(--line);
-  border-radius: 10px; }
-.logo { width: 92px; height: 92px; border-radius: 18px;
-  border: 1px solid var(--line); }
-h1 { font-size: 2.4rem; margin: 0.4em 0 0.1em; }
-h2 { border-bottom: 2px solid var(--acc); padding-bottom: 0.2em;
-  margin-top: 2em; }
-.lede { font-size: 1.15rem; max-width: 62ch; }
-main { padding: 0 6vw 3rem; max-width: 1180px; margin: 0 auto; }
-.grid { display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
-.card { background: var(--panel); border: 1px solid var(--line);
-  border-radius: 12px; padding: 1rem 1.2rem; }
-.card.pop { animation: rise 0.7s ease both; }
-@keyframes rise { from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: none; } }
-pre.code { background: #101014; color: #e8e6df; padding: 1rem 1.2rem;
-  border-radius: 12px; overflow-x: auto; font-size: 0.86rem;
-  border-left: 5px solid var(--acc); }
-table { border-collapse: collapse; width: 100%; }
-td, th { border-bottom: 1px solid var(--line); padding: 0.45rem 0.6rem;
-  text-align: left; }
-.shots { display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-.shots img { width: 100%; height: auto; border: 1px solid var(--line);
-  border-radius: 10px; background: #f4f1e8; }
-footer { padding: 2rem 6vw; border-top: 1px solid var(--line);
-  color: var(--mut); }
-.rail { display: flex; gap: 1.2rem; align-items: flex-start; }
-.rail nav { position: sticky; top: 1rem; min-width: 180px; }
-@media (max-width: 760px) { .rail { flex-direction: column; }
-  .rail nav { position: static; } }
-@media (prefers-reduced-motion: reduce) {
-  .card.pop { animation: none; } * { scroll-behavior: auto; } }
+@font-face{font-family:'Antic';src:url('fonts/Antic.ttf') format('truetype');}
+@font-face{font-family:'Cabin';src:url('fonts/Cabin.ttf') format('truetype');}
+:root{--brass:#c69c3e;--copper:#965c34;--red:#a02a26;--white:#f2f0e6;--herb:#5e7050;--ink:#2e2c28}
+*{box-sizing:border-box} body{margin:0;background:#e9e6da;color:var(--ink);font-family:'Cabin',sans-serif;line-height:1.6}
+h1,h2{font-family:'Antic',sans-serif}
+.hero{max-width:1060px;margin:0 auto;padding:1.6rem 5vw 0}.hero img{width:100%;height:auto;display:block}
+.layout{max-width:1060px;margin:0 auto;padding:0 5vw 2rem;display:grid;grid-template-columns:1fr 300px;gap:1.6rem;align-items:start}
+@media(max-width:820px){.layout{grid-template-columns:1fr}}
+.tread{background:var(--white);border-left:14px solid var(--red);padding:1rem 1.3rem;margin:0 0 1.1rem;position:relative}
+.tread:after{content:'';position:absolute;left:0;right:0;bottom:8px;height:3px;background:var(--brass)}
+.tread h2{margin:.1rem 0 .4rem}.rodno{float:right;background:var(--brass);color:#241d08;border-radius:50%;width:2rem;height:2rem;text-align:center;line-height:2rem;font-family:'Antic',sans-serif}
+.landing{background:#fbfaf2;border:3px double #8a8474;padding:1.1rem 1.2rem;position:sticky;top:1rem}
+.landing h2{margin-top:0;font-size:1.15rem}
+.btn{display:inline-block;background:linear-gradient(90deg,var(--copper),var(--brass) 18%,var(--brass) 82%,var(--copper));color:#1d1a12;font-family:'Antic',sans-serif;text-decoration:none;padding:.5rem 1.3rem;border-radius:999px;box-shadow:0 2px 0 rgba(46,44,40,.35);margin:.3rem .3rem .3rem 0}
+.btn:hover{filter:brightness(1.12)}.btn:active{transform:translateY(1px);box-shadow:none}.btn:focus-visible{outline:2px solid var(--herb);outline-offset:4px}
+a{color:var(--copper)} a:before{content:'';display:inline-block;width:.55em;height:.55em;border:2px solid var(--brass);border-radius:50%;margin-right:.35em}
+a:hover:before{background:var(--red)} .btn:before{content:none}
+.rod{height:5px;background:var(--brass);margin:1.8rem auto;position:relative}
+.rod:before,.rod:after{content:'';position:absolute;top:-4px;width:13px;height:13px;border-radius:50%;background:var(--brass)}
+.rod:before{left:-2px}.rod:after{right:-2px} .rod.short{width:36%} .rod.short:after{content:none}
+.plain{max-width:1060px;margin:0 auto;padding:0 5vw 2.4rem}
+footer{max-width:1060px;margin:0 auto;padding:0 5vw 2rem;color:#6a665c;font-size:.92rem}
 </style>
 </head>
-<body class="layout-cards">
-<!-- This page exists for Task-Manager alone: the layout (index-cards),
-     the colors, and the type were picked for this project, not
-     shared with the other project pages. The code block below is
-     copied from the file it names, line for line. If it looks
-     plain, that is because the project is plain, and I would
-     rather the page match the project than dress it up. The one
-     thing I will not do here is oversell: what this project does
-     not do is stated on the page, not hidden from it. -->
+<body>
 <header class="hero">
-  <img class="logo" src="assets/logo.png" alt="Task Manager logo">
-  <img class="banner" src="assets/banner.png" alt="">
-  <h1>Task Manager</h1>
-  <p class="mono"><a href="https://github.com/Epsilon0xCell/Task-Manager">github.com/Epsilon0xCell/Task-Manager</a></p>
+<img src="assets/intro-banner.png" alt="Stair flight in profile, red runner held by brass rods, the second rod crooked">
+<h1>Task-Manager</h1>
+<p>A single file interactive Python program, standard library only. Tasks are kept in a list in memory for the session only and nothing is written to disk. Start it with <code>python3 task-manager.py</code>.</p>
+<p><a class="btn" href="https://github.com/Epsilon0xCell/Task-Manager">Open the repo</a> <a class="btn" href="#behaviour">Behaviour and tests</a></p>
 </header>
-
+<div class="layout">
 <main>
-  <section class="rail">
-    <nav aria-label="on this page">
-      <p class="mono"><a href="#run">Run it</a><br>
-      <a href="#files">The files</a><br>
-      <a href="#sheets">The sheets</a><br>
-      <a href="https://github.com/Epsilon0xCell/Task-Manager">The repo</a></p>
-    </nav>
-    <div>
-      <p class="lede">Task Manager is one of my projects. The README in the repo is short, so this page sticks to what the files themselves show.</p>
-      <div class="grid">
-        <div class="card pop"><h3>What it is</h3>
-          <p>Task Manager: 3 files, 125 counted
-          lines across Python 123, Markdown 2. One job, done in the
-          open, in files you can read.</p></div>
-        <div class="card pop"><h3>The biggest piece</h3>
-          <p><code>task-manager.py</code> carries the most
-          lines. If the project grows, that file is where the growth
-          lands first, for better or worse.</p></div>
-        <div class="card pop"><h3>The honest gap</h3>
-          <p>No test files yet. That is the honest gap, and the roadmap in the visuals folder says what the first one should cover.</p></div>
-      </div>
-      <section id="run">
-        <h2>Run it</h2>
-        <p>The repo README has the exact commands for this one. The
-        shape is the shape for most of my projects: clone it, read the
-        top file first so you know what will happen, then run it on
-        something you do not mind breaking.</p>
-        <p class="mono">$ git clone https://github.com/Epsilon0xCell/Task-Manager.git<br>$ cd Task-Manager</p>
-      </section>
-      
-  <section aria-label="real code">
-    <h2>The code, as it sits in the repo</h2>
-    <p>From <code>task-manager.py</code>, line 10 on. I did
-    not tidy it for the page. What you see is what the file has.</p>
-    <pre class="code"><code>import os
-
-class task:
-  __slots__ = (&quot;Task&quot;, &quot;Completed_Uncompleted&quot;, &quot;Days&quot;)
-
-  def __init__(self, Task, Completed_Uncompleted, Days):
-    self.Task = Task
-    self.Completed_Uncompleted = Completed_Uncompleted
-    self.Days = Days
-
-  def __str__(self):
-    return &quot;\n Your task is: &quot; + self.Task + &quot;\n Is the task completed or uncompleted (if 1 the task is completed if 0 the task is not completed) \n&quot; + str(self.Completed_Uncompleted) + &quot;\n The amount of days until the task is due is: \n&quot; + str(self.Days)
-
-  def task_due(self):
-    if self.Days &lt;= 0:
-      return &quot;\n This task is a due task \n&quot;
-    else:
-      return &quot;\n This task is not due yet get working. \n&quot;
-
-  def day_passed(self):
-    self.Days = self.Days
-    return &quot;After updation the day passed is now&quot; + str(self.Days)</code></pre>
-  </section>
-      <section id="files">
-        <h2>The files that matter</h2>
-        <table><tr><th>File</th><th>Lines</th></tr>
-        <tr><td><code>task-manager.py</code></td><td>123</td></tr>
-        <tr><td><code>README.md</code></td><td>2</td></tr>
-        <tr><td><code>LICENSE</code></td><td>0</td></tr>
-        </table>
-        <p>Names doing the work: <span class="mono">task, countDueTasks, randomTask, firstTask, removeCompleted, __init__, __str__, task_due</span>.</p>
-      </section>
-      <section id="sheets">
-        <h2>Drawn by hand</h2>
-        <p>I sketch my projects on notebook paper so I have to
-        understand them well enough to draw them. The full set,
-        with the counts and how they were counted, is the
-        <a href="https://github.com/Epsilon0xCell/Task-Manager/tree/main/Task-Manager-Visuals">Task-Manager-Visuals</a>
-        folder in the repo. Nothing is drawn over the binder holes.
-        That is a rule, not a style.</p>
-        <div class="shots">
-          <img src="assets/architecture.png" alt="Hand drawn architecture sheet for Task Manager">
-          <img src="assets/flowchart.png" alt="Hand drawn flowchart sheet for Task Manager">
-          <img src="assets/product-map.png" alt="Hand drawn product map sheet for Task Manager">
-        </div>
-      </section>
-    </div>
-  </section>
+<section class="tread"><span class="rodno">1</span><h2>1. ADD</h2><p>Asks for a description and whole days until due. Blank descriptions, text day counts, and negative days are refused, each with an explanation, and the task is not added.</p></section>
+<section class="tread"><span class="rodno">2</span><h2>2. COMPLETE</h2><p>Matches a task by its exact case sensitive name. A match reports Marked completed; no match says no task with that name was found.</p></section>
+<section class="tread"><span class="rodno">3</span><h2>3. PRINT</h2><p>Lists every task with its number, its status as 1 for completed or 0 for not, and its days remaining.</p></section>
+<section class="tread"><span class="rodno">4</span><h2>4. REMOVE</h2><p>Shows the list before and after as every completed task is taken out. Only uncompleted tasks remain.</p></section>
+<section class="tread"><span class="rodno">5</span><h2>5. RANDOM</h2><p>Prints one task picked at random, or a short no tasks message when the list is empty.</p></section>
+<section class="tread"><span class="rodno">6</span><h2>6. NEXT</h2><p>Prints the task or tasks with the fewest days left, comparing days as numbers, so 2 days is chosen ahead of 100.</p></section>
+<section class="tread"><span class="rodno">7</span><h2>7. QUIT</h2><p>Prints Bye! Bye! and leaves. The same farewell answers Ctrl-C or closed input at the menu or any sub-prompt.</p></section>
 </main>
-<footer>
-  <p>Task Manager is one of my projects. This page was written
-  from the repo itself on 2026-10-30: the counts are the
-  repo's counts, the code is the repo's code, and the gaps are the
-  repo's gaps.</p>
-</footer>
+<aside class="landing">
+<h2>The landing list</h2>
+<p>Every session opens with two tasks:</p>
+<p><strong>walk dog</strong>: due in 2 days, already completed (status 1).</p>
+<p><strong>Eat tree</strong>: due in 30 days, not completed (status 0).</p>
+<p>Quitting erases the list, because nothing is saved to disk.</p>
+</aside>
+</div>
+<section class="plain" id="behaviour">
+<div class="rod"></div>
+<h2>Behaviour and testing</h2>
+<p>Bad menu entries, from text to 3.5 to 99, bring back the request for a number from 1 to 7 with no traceback. The test suite runs with <code>python3 -m unittest</code> across 19 tests covering the task class, with its task_due and day_passed methods, and scripted menu runs.</p>
+<div class="rod short"></div>
+<h2>Files</h2>
+<p>task-manager.py, test_task_manager.py, and the GPL v3 licence (LICENSE).</p>
+</section>
+<footer><p>Evening on the same stairs: the list empty in memory because the program has quit, and the runner lying flat under its rods.</p></footer>
 </body>
 </html>
