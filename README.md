@@ -1,9 +1,11 @@
-![Intro scenery](intro-banner.png)
+![Intro scenery: the pencil ticking the last box on the planner page while the red cover comes down over the finished list, the highlighted row above the tick and looping pencil scribbles standing in for the entries](intro-banner.png)
 
 
 # Task-Manager
 
-![Wordmark banner](banner.png)
+![Wordmark banner: an open paper planner on a wooden desk, its left page ruled with rows of empty checkbox squares and looping pencil scribbles for entries, one row swept with yellow highlighter as the next due, the red spiral binding at the centre and a faint calendar grid on the right page](banner.png)
+
+<p align="center"><img src="logo.png" alt="Task-Manager logo: a white spiral planner page seen from above, a column of empty pencil checkbox squares down the left margin with the first box ticked and the red spiral binding along the left edge" width="200"></p>
 
 ![Animated scene](scene.svg)
 
