@@ -3,66 +3,72 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Task-Manager: The Stair Runner Brass Rods</title>
-<meta name="description" content="A single file interactive Python task manager, standard library only, tasks kept in memory for the session only.">
+<title>Task-Manager: The Planner Page</title>
+<meta name="description" content="A minimal interactive task manager in a single Python file, standard library only. Tasks live in memory for the session and reset when you quit.">
 <style>
-@font-face{font-family:'Antic';src:url('fonts/Antic.ttf') format('truetype');}
-@font-face{font-family:'Cabin';src:url('fonts/Cabin.ttf') format('truetype');}
-:root{--brass:#c69c3e;--copper:#965c34;--red:#a02a26;--white:#f2f0e6;--herb:#5e7050;--ink:#2e2c28}
-*{box-sizing:border-box} body{margin:0;background:#e9e6da;color:var(--ink);font-family:'Cabin',sans-serif;line-height:1.6}
-h1,h2{font-family:'Antic',sans-serif}
-.hero{max-width:1060px;margin:0 auto;padding:1.6rem 5vw 0}.hero img{width:100%;height:auto;display:block}
-.layout{max-width:1060px;margin:0 auto;padding:0 5vw 2rem;display:grid;grid-template-columns:1fr 300px;gap:1.6rem;align-items:start}
-@media(max-width:820px){.layout{grid-template-columns:1fr}}
-.tread{background:var(--white);border-left:14px solid var(--red);padding:1rem 1.3rem;margin:0 0 1.1rem;position:relative}
-.tread:after{content:'';position:absolute;left:0;right:0;bottom:8px;height:3px;background:var(--brass)}
-.tread h2{margin:.1rem 0 .4rem}.rodno{float:right;background:var(--brass);color:#241d08;border-radius:50%;width:2rem;height:2rem;text-align:center;line-height:2rem;font-family:'Antic',sans-serif}
-.landing{background:#fbfaf2;border:3px double #8a8474;padding:1.1rem 1.2rem;position:sticky;top:1rem}
-.landing h2{margin-top:0;font-size:1.15rem}
-.btn{display:inline-block;background:linear-gradient(90deg,var(--copper),var(--brass) 18%,var(--brass) 82%,var(--copper));color:#1d1a12;font-family:'Antic',sans-serif;text-decoration:none;padding:.5rem 1.3rem;border-radius:999px;box-shadow:0 2px 0 rgba(46,44,40,.35);margin:.3rem .3rem .3rem 0}
-.btn:hover{filter:brightness(1.12)}.btn:active{transform:translateY(1px);box-shadow:none}.btn:focus-visible{outline:2px solid var(--herb);outline-offset:4px}
-a{color:var(--copper)} a:before{content:'';display:inline-block;width:.55em;height:.55em;border:2px solid var(--brass);border-radius:50%;margin-right:.35em}
-a:hover:before{background:var(--red)} .btn:before{content:none}
-.rod{height:5px;background:var(--brass);margin:1.8rem auto;position:relative}
-.rod:before,.rod:after{content:'';position:absolute;top:-4px;width:13px;height:13px;border-radius:50%;background:var(--brass)}
-.rod:before{left:-2px}.rod:after{right:-2px} .rod.short{width:36%} .rod.short:after{content:none}
-.plain{max-width:1060px;margin:0 auto;padding:0 5vw 2.4rem}
-footer{max-width:1060px;margin:0 auto;padding:0 5vw 2rem;color:#6a665c;font-size:.92rem}
+@font-face{font-family:'Shantell Sans';src:url('fonts/ShantellSans-400.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'Shantell Sans';src:url('fonts/ShantellSans-500.woff2') format('woff2');font-weight:500}
+@font-face{font-family:'Shantell Sans';src:url('fonts/ShantellSans-700.woff2') format('woff2');font-weight:700}
+@font-face{font-family:'Nunito Sans';src:url('fonts/NunitoSans-400.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'Nunito Sans';src:url('fonts/NunitoSans-600.woff2') format('woff2');font-weight:600}
+@font-face{font-family:'Nunito Sans';src:url('fonts/NunitoSans-700.woff2') format('woff2');font-weight:700}
+@font-face{font-family:'Nunito Sans';src:url('fonts/NunitoSans-900.woff2') format('woff2');font-weight:900}
+:root{--paper:#fbf8f0;--page:#fffdf6;--ink:#45453d;--pencil:#6d6d60;--red:#b23a2e;--reddk:#8c2b21;--hl:#f7dc3a;--desk:#7d5f43;--line:#ddd3ba}
+*{box-sizing:border-box} body{margin:0;background:var(--paper);color:var(--ink);font-family:'Nunito Sans',sans-serif;line-height:1.65}
+h1,h2{font-family:'Shantell Sans',cursive;color:var(--reddk);font-weight:700}
+.hero{background:linear-gradient(165deg,#8a6a4c 0%,var(--desk) 55%,#644832 100%);padding:2.2rem 6vw 1.8rem}
+.hero .inner{max-width:1020px;margin:0 auto}
+.hero img.wide{width:100%;height:auto;display:block;border:6px solid var(--page);border-radius:4px;box-shadow:0 4px 18px rgba(0,0,0,.35)}
+.hero .row{display:flex;gap:1.1rem;align-items:flex-start;margin-top:1.2rem}
+.hero .row img{width:92px;height:92px;border-radius:6px;border:3px solid var(--page);background:var(--page)}
+.hero h1{margin:.1rem 0 .3rem;font-size:2.9rem;color:#fff6df}
+.hero p{max-width:44rem;color:#f3e8cf}
+main{padding:0 6vw 3rem;max-width:1020px;margin:0 auto}
+.page{background:var(--page);border:1px solid var(--line);border-left:6px solid var(--red);border-radius:6px;padding:1.2rem 1.5rem 1.2rem 2.6rem;margin:1.6rem 0;box-shadow:0 2px 8px rgba(90,70,40,.12);position:relative}
+.page:before{content:"";position:absolute;left:1.05rem;top:1.35rem;width:.95rem;height:.95rem;border:2px solid var(--pencil);border-radius:2px}
+.page h2{margin:.1rem 0 .5rem;font-size:1.9rem}
+.page p{margin:.4rem 0}
+.strip{background:#3d3d36;color:#f5efdb;padding:1rem 1.2rem;overflow-x:auto;font-family:ui-monospace,Menlo,monospace;border-radius:4px;border-left:6px solid var(--red)}
+.btn{display:inline-block;background:var(--red);color:#fff8e8;font-family:'Nunito Sans',sans-serif;font-weight:700;text-decoration:none;padding:.55rem 1.1rem;border-radius:999px;margin:.3rem .4rem .3rem 0}
+.btn:hover{background:var(--reddk);color:#fff8e8}.btn:active{transform:translateY(2px)}
+.btn:focus-visible{outline:2px dashed var(--hl);outline-offset:3px}
+a{color:var(--reddk);font-weight:700}
+mark{background:linear-gradient(transparent 55%,var(--hl) 55%,var(--hl) 92%,transparent 92%);color:inherit;padding:0 .1rem}
+table{border-collapse:collapse}td{padding:.2rem .9rem .2rem 0;vertical-align:top}
+td:first-child{font-weight:900;color:var(--reddk);white-space:nowrap}
+ul{margin:.4rem 0;padding-left:1.2rem}li{margin:.25rem 0}
+.small{font-size:.92rem}
+footer{padding:0 6vw 2.5rem;max-width:1020px;margin:0 auto;color:#8a7a5c}
 </style>
 </head>
 <body>
 <header class="hero">
-<img src="assets/intro-banner.png" alt="Stair flight in profile, red runner held by brass rods, the second rod crooked">
-<h1>Task-Manager</h1>
-<p>A single file interactive Python program, standard library only. Tasks are kept in a list in memory for the session only and nothing is written to disk. Start it with <code>python3 task-manager.py</code>.</p>
-<p><a class="btn" href="https://github.com/Epsilon0xCell/Task-Manager">Open the repo</a> <a class="btn" href="#behaviour">Behaviour and tests</a></p>
-</header>
-<div class="layout">
-<main>
-<section class="tread"><span class="rodno">1</span><h2>1. ADD</h2><p>Asks for a description and whole days until due. Blank descriptions, text day counts, and negative days are refused, each with an explanation, and the task is not added.</p></section>
-<section class="tread"><span class="rodno">2</span><h2>2. COMPLETE</h2><p>Matches a task by its exact case sensitive name. A match reports Marked completed; no match says no task with that name was found.</p></section>
-<section class="tread"><span class="rodno">3</span><h2>3. PRINT</h2><p>Lists every task with its number, its status as 1 for completed or 0 for not, and its days remaining.</p></section>
-<section class="tread"><span class="rodno">4</span><h2>4. REMOVE</h2><p>Shows the list before and after as every completed task is taken out. Only uncompleted tasks remain.</p></section>
-<section class="tread"><span class="rodno">5</span><h2>5. RANDOM</h2><p>Prints one task picked at random, or a short no tasks message when the list is empty.</p></section>
-<section class="tread"><span class="rodno">6</span><h2>6. NEXT</h2><p>Prints the task or tasks with the fewest days left, comparing days as numbers, so 2 days is chosen ahead of 100.</p></section>
-<section class="tread"><span class="rodno">7</span><h2>7. QUIT</h2><p>Prints Bye! Bye! and leaves. The same farewell answers Ctrl-C or closed input at the menu or any sub-prompt.</p></section>
-</main>
-<aside class="landing">
-<h2>The landing list</h2>
-<p>Every session opens with two tasks:</p>
-<p><strong>walk dog</strong>: due in 2 days, already completed (status 1).</p>
-<p><strong>Eat tree</strong>: due in 30 days, not completed (status 0).</p>
-<p>Quitting erases the list, because nothing is saved to disk.</p>
-</aside>
+<div class="inner">
+<img class="wide" src="assets/intro-banner.png" alt="The pencil ticking the last box on the planner page while the red cover comes down over the finished list, the highlighted row above the tick">
+<div class="row"><img src="assets/logo.png" alt="A white spiral planner page seen from above, a column of empty pencil checkbox squares down the left margin with the first box ticked, the red spiral binding along the left edge"><div><h1>Task-Manager</h1><p>A minimal interactive task manager in Python, in a single file, using only the standard library. Tasks live in an in-memory list for the duration of the session; nothing is saved to disk, so the list resets when you quit, exactly like a planner page that is finished and closed at the end of the day.</p><p><a class="btn" href="https://github.com/Epsilon0xCell/Task-Manager">Open the repo</a> <a class="btn" href="#proof">The tests</a></p></div></div>
 </div>
-<section class="plain" id="behaviour">
-<div class="rod"></div>
-<h2>Behaviour and testing</h2>
-<p>Bad menu entries, from text to 3.5 to 99, bring back the request for a number from 1 to 7 with no traceback. The test suite runs with <code>python3 -m unittest</code> across 19 tests covering the task class, with its task_due and day_passed methods, and scripted menu runs.</p>
-<div class="rod short"></div>
-<h2>Files</h2>
-<p>task-manager.py, test_task_manager.py, and the GPL v3 licence (LICENSE).</p>
-</section>
-<footer><p>Evening on the same stairs: the list empty in memory because the program has quit, and the runner lying flat under its rods.</p></footer>
+</header>
+<main>
+<section class="page"><h2>Run it</h2><div class="strip">python3 task-manager.py</div><p>The program starts with two built-in example tasks already on the page: <mark>walk dog</mark>, due in 2 days and marked completed, and <mark>Eat tree</mark>, due in 30 days and not completed. Then the menu appears.</p></section>
+<section class="page"><h2>The menu</h2><table>
+<tr><td>1. ADD</td><td>add a task, with a description and whole days until it is due</td></tr>
+<tr><td>2. COMPLETE</td><td>mark a task completed by its exact, case-sensitive name</td></tr>
+<tr><td>3. PRINT</td><td>list all tasks with their status and days remaining</td></tr>
+<tr><td>4. REMOVE</td><td>remove every completed task from the list</td></tr>
+<tr><td>5. RANDOM</td><td>print one task chosen at random</td></tr>
+<tr><td>6. NEXT</td><td>print the task with the fewest days remaining</td></tr>
+<tr><td>7. QUIT</td><td>exit</td></tr>
+</table></section>
+<section class="page"><h2>Behaviour, checked line by line</h2><ul>
+<li>The menu accepts only a whole number from 1 to 7. Anything else prints <code>Please enter a number from 1 to 7.</code> and shows the menu again, with no traceback.</li>
+<li>Closing the input (EOF, for example Ctrl-D) or pressing Ctrl-C at the menu or at any sub-prompt prints <code>Bye! Bye!</code> and exits with status 0.</li>
+<li>ADD rejects a non-numeric days value, a negative days value, and a blank description, each with an explanation, and does not add the task.</li>
+<li>COMPLETE reports what it did, and REMOVE really removes: completed tasks are gone from a following PRINT, which is shown before and after.</li>
+<li>NEXT compares days as numbers, so a task due in 2 days is chosen ahead of one due in 100 days. NEXT and RANDOM on an empty list print a short no-tasks message instead of crashing.</li>
+</ul></section>
+<section class="page" id="proof"><h2>The tests</h2><div class="strip">python3 -m unittest</div><p>19 tests: the <code>task</code> class on its own (string fields stored as ints, due checks, <code>day_passed</code>, removal mutating the caller's list) and scripted menu runs (add, complete, remove, next, quit, bad input, EOF, and a simulated Ctrl-C).</p></section>
+<section class="page"><h2>The files</h2><p class="small"><code>task-manager.py</code>, the whole program, including the <code>task</code> class and the menu loop. <code>test_task_manager.py</code>, the test suite. <code>LICENSE</code>, the GNU General Public License v3. The full behaviour notes are in the <a href="https://github.com/Epsilon0xCell/Task-Manager">repo README</a>.</p></section>
+</main>
+<footer><p>Every session opens with walk dog, due in 2 days and already completed, and Eat tree, due in 30 days and not completed. Quitting erases the list, because nothing is saved to disk.</p></footer>
 </body>
 </html>
